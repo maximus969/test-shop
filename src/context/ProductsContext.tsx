@@ -2,14 +2,17 @@ import React, { useState } from "react";
 
 const defaultValues: ProductsContextType = {
   products: [],
-  fetchProducts: () => { },
+  cartItems: [],
+  addProduct: () => { },
+  removeProduct: () => { },
+  fetchProducts: () => { }
 };
 
 export const ProductsContext = React.createContext<ProductsContextType>(defaultValues)
 
 export const ProductsProvider: React.FC = ({ children }) => {
   const [products, setProducts] = useState<Product[]>(defaultValues.products);
-
+  const [cartItems, setCartItems] = useState<CartItem[]>(defaultValues.cartItems);
 
   const fetchProducts = async () => {
     let response = await fetch('http://localhost:3001/api/products/');
@@ -21,12 +24,36 @@ export const ProductsProvider: React.FC = ({ children }) => {
     }
   }
 
+  const addProduct = (newItem: Product) => {
+    setCartItems((prevItems) => {
+      const findItem = prevItems.find((item) => item.id === newItem.id);
 
+      if (findItem) {
+        return prevItems.map(item => item.id === newItem.id ? { ...item, quantity: item.quantity + 1 } : item);
+      }
+      return [...prevItems, { ...newItem, quantity: 1 }];
+    });
+  };
 
-
+  const removeProduct = (productId: number) => {
+    setCartItems((prev) =>
+      prev.reduce((ack, item) => {
+        if (item.id === productId) {
+          if (item.quantity === 1) return ack;
+          return [...ack, { ...item, quantity: item.quantity - 1 }];
+        } else {
+          return [...ack, item];
+        }
+      }, [] as CartItem[]),
+    );
+  };
 
   return (
-    <ProductsContext.Provider value={{ products, fetchProducts }}>
+    <ProductsContext.Provider value={{
+      products, cartItems, fetchProducts,
+      addProduct,
+      removeProduct
+    }}>
       {children}
     </ProductsContext.Provider>
   );
@@ -55,6 +82,9 @@ interface Category {
 
 export type ProductsContextType = {
   products: Product[];
+  cartItems: CartItem[];
   fetchProducts: () => void;
+  addProduct: (product: Product) => void;
+  removeProduct: (id: number) => void;
 };
 

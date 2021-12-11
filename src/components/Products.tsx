@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router';
 
 export const Products: React.FC<RouteComponentProps> = () => {
 
-  const { products, fetchProducts } = useContext(ProductsContext);
+  const { products, fetchProducts, addProduct, removeProduct } = useContext(ProductsContext);
 
 
   useEffect(() => {
@@ -33,9 +33,9 @@ export const Products: React.FC<RouteComponentProps> = () => {
                 <td> {product.name}</td>
                 <td>${product.price}</td>
                 <td>
-                  <button>-</button>
+                  <button onClick={() => removeProduct(product.id)}>-</button>
                   Select
-                  <button>+</button>
+                  <button onClick={() => addProduct(product)}>+</button>
                 </td>
               </tr>
             )
