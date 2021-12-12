@@ -1,6 +1,7 @@
 import { ProductsContext } from 'context/ProductsContext';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
+import s from './Table.module.css'
 
 export const Products: React.FC<RouteComponentProps> = () => {
   const { products, fetchProducts, addProduct, removeProduct } = useContext(ProductsContext);
@@ -59,25 +60,25 @@ export const Products: React.FC<RouteComponentProps> = () => {
   };
 
   return (
-    <div>
+    <div className={s.tableWrapper}>
       <table>
         <tbody>
-          <tr>
+          <tr className={s.tr1}>
             <th>
               CATEGORY
-              <button
-                onClick={() => {
-                  setUpOrDown(['category', 'asc']);
-                }}
-              >
-                asc
-              </button>
               <button
                 onClick={() => {
                   setUpOrDown(['category', 'desc']);
                 }}
               >
-                desc
+                △
+              </button>
+              <button
+                onClick={() => {
+                  setUpOrDown(['category', 'asc']);
+                }}
+              >
+                ▽
               </button>
             </th>
             <th>NAME</th>
@@ -85,28 +86,28 @@ export const Products: React.FC<RouteComponentProps> = () => {
               PRICE
               <button
                 onClick={() => {
-                  setUpOrDown(['price', 'asc']);
-                }}
-              >
-                asc
-              </button>
-              <button
-                onClick={() => {
                   setUpOrDown(['price', 'desc']);
                 }}
               >
-                desc
+                △
+              </button>
+              <button
+                onClick={() => {
+                  setUpOrDown(['price', 'asc']);
+                }}
+              >
+                ▽
               </button>
             </th>
             <th>ACTIONS</th>
           </tr>
           {sortedItems().map((product) => {
             return (
-              <tr key={product.id}>
-                <td> {product.category.name}</td>
-                <td> {product.name}</td>
-                <td>${product.price}</td>
-                <td>
+              <tr key={product.id} className={s.tr2}>
+                <td className={s.td1}> {product.category.name}</td>
+                <td className={s.td1}> {product.name}</td>
+                <td className={s.td1}>${product.price}</td>
+                <td className={s.td1}>
                   <button onClick={() => removeProduct(product.id)}>-</button>
                   Select
                   <button onClick={() => addProduct(product)}>+</button>

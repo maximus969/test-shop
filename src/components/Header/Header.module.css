@@ -1,0 +1,30 @@
+nav {
+  width: 120px;
+  height: 30px;
+  margin: 0 auto 80px auto;
+  padding-top: 10px;
+}
+
+.linkList {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.linkListItem {
+  font-size: 18px;
+  color: darkcyan;
+  text-decoration: none;
+}
+
+.linkListItem:hover {
+  text-decoration: underline;
+}
+
+.linkListActiveItem {
+  color: violet;
+  text-decoration: none;
+}
