@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const defaultValues: ProductsContextType = {
   products: [],
   cartItems: [],
-  addProduct: () => { },
-  removeProduct: () => { },
-  fetchProducts: () => { }
+  addProduct: () => {},
+  removeProduct: () => {},
+  fetchProducts: () => {},
 };
 
-export const ProductsContext = React.createContext<ProductsContextType>(defaultValues)
+export const ProductsContext = React.createContext<ProductsContextType>(defaultValues);
 
 export const ProductsProvider: React.FC = ({ children }) => {
   const [products, setProducts] = useState<Product[]>(defaultValues.products);
@@ -20,16 +20,16 @@ export const ProductsProvider: React.FC = ({ children }) => {
       let data = await response.json();
       setProducts(data);
     } else {
-      alert("Error HTTP: " + response.status);
+      alert('Error HTTP: ' + response.status);
     }
-  }
+  };
 
   const addProduct = (newItem: Product) => {
     setCartItems((prevItems) => {
       const findItem = prevItems.find((item) => item.id === newItem.id);
 
       if (findItem) {
-        return prevItems.map(item => item.id === newItem.id ? { ...item, quantity: item.quantity + 1 } : item);
+        return prevItems.map((item) => (item.id === newItem.id ? { ...item, quantity: item.quantity + 1 } : item));
       }
       return [...prevItems, { ...newItem, quantity: 1 }];
     });
@@ -49,16 +49,19 @@ export const ProductsProvider: React.FC = ({ children }) => {
   };
 
   return (
-    <ProductsContext.Provider value={{
-      products, cartItems, fetchProducts,
-      addProduct,
-      removeProduct
-    }}>
+    <ProductsContext.Provider
+      value={{
+        products,
+        cartItems,
+        fetchProducts,
+        addProduct,
+        removeProduct,
+      }}
+    >
       {children}
     </ProductsContext.Provider>
   );
 };
-
 
 export interface Product {
   id: number;
@@ -87,4 +90,3 @@ export type ProductsContextType = {
   addProduct: (product: Product) => void;
   removeProduct: (id: number) => void;
 };
-
