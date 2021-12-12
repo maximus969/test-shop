@@ -1,7 +1,7 @@
 import { ProductsContext } from 'context/ProductsContext';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
-import s from './Table.module.css'
+import s from './Table.module.css';
 
 export const Products: React.FC<RouteComponentProps> = () => {
   const { products, fetchProducts, addProduct, removeProduct } = useContext(ProductsContext);
@@ -17,43 +17,43 @@ export const Products: React.FC<RouteComponentProps> = () => {
       if (upOrDown[0] === 'price') {
         upOrDown[1] === 'asc'
           ? sortingItems.sort((a, b) => {
-            if (a.price < b.price) {
-              return -1;
-            }
-            if (a.price > b.price) {
-              return 1;
-            }
-            return 0;
-          })
+              if (a.price < b.price) {
+                return -1;
+              }
+              if (a.price > b.price) {
+                return 1;
+              }
+              return 0;
+            })
           : sortingItems.sort((a, b) => {
-            if (a.price < b.price) {
-              return 1;
-            }
-            if (a.price > b.price) {
-              return -1;
-            }
-            return 0;
-          });
+              if (a.price < b.price) {
+                return 1;
+              }
+              if (a.price > b.price) {
+                return -1;
+              }
+              return 0;
+            });
       } else {
         upOrDown[1] === 'asc'
           ? sortingItems.sort((a, b) => {
-            if (a.category.name < b.category.name) {
-              return -1;
-            }
-            if (a.category.name > b.category.name) {
-              return 1;
-            }
-            return 0;
-          })
+              if (a.category.name < b.category.name) {
+                return -1;
+              }
+              if (a.category.name > b.category.name) {
+                return 1;
+              }
+              return 0;
+            })
           : sortingItems.sort((a, b) => {
-            if (a.category.name < b.category.name) {
-              return 1;
-            }
-            if (a.category.name > b.category.name) {
-              return -1;
-            }
-            return 0;
-          });
+              if (a.category.name < b.category.name) {
+                return 1;
+              }
+              if (a.category.name > b.category.name) {
+                return -1;
+              }
+              return 0;
+            });
       }
     }
     return sortingItems;

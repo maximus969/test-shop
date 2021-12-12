@@ -4,7 +4,7 @@ import { Products } from 'components/Products';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { ProductsProvider } from 'context/ProductsContext';
-import s from './App.module.css'
+import s from './App.module.css';
 
 export const App: React.FC = () => {
   return (

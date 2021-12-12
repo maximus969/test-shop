@@ -1,10 +1,10 @@
 import { ProductsContext } from 'context/ProductsContext';
 import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router';
-import s from './Table.module.css'
+import s from './Table.module.css';
 
 export const Cart: React.FC<RouteComponentProps> = () => {
-  const { cartItems, addProduct, removeProduct } = useContext(ProductsContext);
+  const { cartItems, addProduct, removeProduct, removeAllProducts } = useContext(ProductsContext);
 
   return (
     <div className={s.tableWrapper}>
@@ -29,7 +29,7 @@ export const Cart: React.FC<RouteComponentProps> = () => {
                   <td className={s.td1}>${+(product.price * product.quantity).toFixed(2)}</td>
                   <td className={s.td1}>
                     <button onClick={() => removeProduct(product.id)}>-</button>
-                    Remove
+                    <button onClick={() => removeAllProducts(product.id)}>Remove</button>
                     <button onClick={() => addProduct(product)}>+</button>
                   </td>
                 </tr>

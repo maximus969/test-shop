@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 const defaultValues: ProductsContextType = {
   products: [],
   cartItems: [],
-  addProduct: () => {},
-  removeProduct: () => {},
-  fetchProducts: () => {},
+  addProduct: () => { },
+  removeProduct: () => { },
+  removeAllProducts: () => { },
+  fetchProducts: () => { },
 };
 
 export const ProductsContext = React.createContext<ProductsContextType>(defaultValues);
@@ -48,6 +49,10 @@ export const ProductsProvider: React.FC = ({ children }) => {
     );
   };
 
+  const removeAllProducts = (productId: number) => {
+    setCartItems((prev) => prev.filter(item => item.id !== productId))
+  }
+
   return (
     <ProductsContext.Provider
       value={{
@@ -56,6 +61,7 @@ export const ProductsProvider: React.FC = ({ children }) => {
         fetchProducts,
         addProduct,
         removeProduct,
+        removeAllProducts,
       }}
     >
       {children}
@@ -89,4 +95,5 @@ export type ProductsContextType = {
   fetchProducts: () => void;
   addProduct: (product: Product) => void;
   removeProduct: (id: number) => void;
+  removeAllProducts: (id: number) => void;
 };

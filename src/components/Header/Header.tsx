@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import s from './Header.module.css'
+import s from './Header.module.css';
 
 export const Header = () => {
   return (
@@ -8,10 +8,14 @@ export const Header = () => {
       <nav>
         <ul className={s.linkList}>
           <li>
-            <NavLink to="/" exact className={s.linkListItem} activeClassName={s.linkListActiveItem}>Products</NavLink>
+            <NavLink to="/" exact className={s.linkListItem} activeClassName={s.linkListActiveItem}>
+              Products
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/cart" exact className={s.linkListItem} activeClassName={s.linkListActiveItem}>Cart</NavLink>
+            <NavLink to="/cart" exact className={s.linkListItem} activeClassName={s.linkListActiveItem}>
+              Cart
+            </NavLink>
           </li>
         </ul>
       </nav>
