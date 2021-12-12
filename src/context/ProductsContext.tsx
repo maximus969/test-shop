@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 const defaultValues: ProductsContextType = {
   products: [],
   cartItems: [],
-  addProduct: () => { },
-  removeProduct: () => { },
-  removeAllProducts: () => { },
-  fetchProducts: () => { },
+  addProduct: () => {},
+  removeProduct: () => {},
+  removeAllProducts: () => {},
+  fetchProducts: () => {},
 };
 
 export const ProductsContext = React.createContext<ProductsContextType>(defaultValues);
@@ -50,8 +50,8 @@ export const ProductsProvider: React.FC = ({ children }) => {
   };
 
   const removeAllProducts = (productId: number) => {
-    setCartItems((prev) => prev.filter(item => item.id !== productId))
-  }
+    setCartItems((prev) => prev.filter((item) => item.id !== productId));
+  };
 
   return (
     <ProductsContext.Provider

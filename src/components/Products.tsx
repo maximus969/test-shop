@@ -1,63 +1,26 @@
-import { ProductsContext } from 'context/ProductsContext';
+import { Product, ProductsContext } from 'context/ProductsContext';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import s from './Table.module.css';
 
 export const Products: React.FC<RouteComponentProps> = () => {
   const { products, fetchProducts, addProduct, removeProduct } = useContext(ProductsContext);
-  const [upOrDown, setUpOrDown] = useState<string[]>([]);
+  const [sortedProducts, setSortedProducts] = useState(products);
+  const sortProductsCallback = (a: Product, b: Product, property: string, asc: boolean = true): number => {
+    const key = property as keyof typeof a;
+    const result = a[key] < b[key] ? -1 : 1;
+    return asc ? result : -result;
+  };
+  const sortProducts = (property: string, asc: boolean) =>
+    setSortedProducts([...products].sort((a, b) => sortProductsCallback(a, b, property, asc)));
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  const sortedItems = () => {
-    let sortingItems = [...products];
-    if (upOrDown.length !== 0) {
-      if (upOrDown[0] === 'price') {
-        upOrDown[1] === 'asc'
-          ? sortingItems.sort((a, b) => {
-              if (a.price < b.price) {
-                return -1;
-              }
-              if (a.price > b.price) {
-                return 1;
-              }
-              return 0;
-            })
-          : sortingItems.sort((a, b) => {
-              if (a.price < b.price) {
-                return 1;
-              }
-              if (a.price > b.price) {
-                return -1;
-              }
-              return 0;
-            });
-      } else {
-        upOrDown[1] === 'asc'
-          ? sortingItems.sort((a, b) => {
-              if (a.category.name < b.category.name) {
-                return -1;
-              }
-              if (a.category.name > b.category.name) {
-                return 1;
-              }
-              return 0;
-            })
-          : sortingItems.sort((a, b) => {
-              if (a.category.name < b.category.name) {
-                return 1;
-              }
-              if (a.category.name > b.category.name) {
-                return -1;
-              }
-              return 0;
-            });
-      }
-    }
-    return sortingItems;
-  };
+  useEffect(() => {
+    setSortedProducts(products);
+  }, [products]);
 
   return (
     <div className={s.tableWrapper}>
@@ -68,32 +31,48 @@ export const Products: React.FC<RouteComponentProps> = () => {
               CATEGORY
               <button
                 onClick={() => {
-                  setUpOrDown(['category', 'desc']);
+                  sortProducts('category.name', false);
                 }}
               >
                 △
               </button>
               <button
                 onClick={() => {
-                  setUpOrDown(['category', 'asc']);
+                  sortProducts('category.name', true);
                 }}
               >
                 ▽
               </button>
             </th>
-            <th>NAME</th>
             <th>
-              PRICE
+              NAME
               <button
                 onClick={() => {
-                  setUpOrDown(['price', 'desc']);
+                  sortProducts('name', false);
                 }}
               >
                 △
               </button>
               <button
                 onClick={() => {
-                  setUpOrDown(['price', 'asc']);
+                  sortProducts('name', true);
+                }}
+              >
+                ▽
+              </button>
+            </th>
+            <th>
+              PRICE
+              <button
+                onClick={() => {
+                  sortProducts('price', false);
+                }}
+              >
+                △
+              </button>
+              <button
+                onClick={() => {
+                  sortProducts('price', true);
                 }}
               >
                 ▽
@@ -101,7 +80,7 @@ export const Products: React.FC<RouteComponentProps> = () => {
             </th>
             <th>ACTIONS</th>
           </tr>
-          {sortedItems().map((product) => {
+          {sortedProducts.map((product) => {
             return (
               <tr key={product.id} className={s.tr2}>
                 <td className={s.td1}> {product.category.name}</td>
